@@ -1,0 +1,14 @@
+data:
+  dataset_url: "https://raw.githubusercontent.com/logpai/loghub/master/HDFS/HDFS.log"
+  raw_log_path: "data/raw_logs/HDFS.log"
+
+model:
+  window_size: 10
+  hidden_size: 64
+  latent_size: 16
+  learning_rate: 0.001
+  epochs: 5
+  batch_size: 128
+
+threshold:
+  percentile: 95
