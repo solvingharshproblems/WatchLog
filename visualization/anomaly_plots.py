@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 
-def plot_anomalies(errors, anomalies):
+def plot_anomalies(errors,anomalies):
     plt.figure(figsize=(12,5))
-    plt.plot(errors, label="Reconstruction Error")
+    plt.plot(errors,label="Reconstruction Error")
     plt.scatter(
-        [i for i, a in enumerate(anomalies) if a],
+        [i for i,a in enumerate(anomalies) if a],
         errors[anomalies],
         color="red",
         label="Anomaly"

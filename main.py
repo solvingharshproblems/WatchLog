@@ -12,7 +12,7 @@ from log_parsing.drain_parser import parse_logs
 from feature_engineering.sequence_features import build_sequences
 from model.trainer import train_model
 from model.lstm_autoencoder import LSTMAutoencoder
-from thresholding.threshold import compute_threshold, detect
+from thresholding.threshold import compute_threshold,detect
 from visualization.anomaly_plots import plot_anomalies
 from visualization.roc_curve import plot_roc
 from evaluation import evaluate
@@ -26,12 +26,12 @@ def set_seed(seed=42):
         torch.cuda.manual_seed_all(seed)
 
 set_seed()
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-logger = get_logger()
+DEVICE=torch.device("cuda" if torch.cuda.is_available() else "cpu")
+logger=get_logger()
 
 def run():
     logger.info("Loading configuration...")
-    config = load_config()
+    config=load_config()
     logger.info("Downloading dataset...")
 
     download_dataset(
@@ -58,61 +58,61 @@ def run():
         "data/processed/sequences.npy"
     )
     logger.info("Loading sequences...")
-    sequences = np.load("data/processed/sequences.npy")
+    sequences=np.load("data/processed/sequences.npy")
 
-    sequences_tensor = torch.tensor(
+    sequences_tensor=torch.tensor(
         sequences,
         dtype=torch.float32
     ).unsqueeze(-1).to(DEVICE)
     logger.info("Loading trained model...")
 
-    model = LSTMAutoencoder(
+    model=LSTMAutoencoder(
         input_dim=1,
         hidden_dim=config['model']['hidden_size'],
         latent_dim=config['model']['latent_size']
     ).to(DEVICE)
 
     model.load_state_dict(
-        torch.load("model.pth", map_location=DEVICE)
+        torch.load("model.pth",map_location=DEVICE)
     )
     model.eval()
     logger.info("Computing reconstruction errors...")
 
     with torch.no_grad():
-        output = model(sequences_tensor)
-        errors = (
-            (sequences_tensor - output) ** 2
-        ).mean(dim=(1, 2)).cpu().numpy()
+        output=model(sequences_tensor)
+        errors=(
+            (sequences_tensor-output)**2
+        ).mean(dim=(1,2)).cpu().numpy()
     logger.info("Computing anomaly threshold...")
 
-    threshold = compute_threshold(
+    threshold=compute_threshold(
         errors,
         method="percentile",
         value=config['threshold']['percentile']
     )
-    anomalies = detect(errors, threshold)
+    anomalies=detect(errors,threshold)
     logger.info(f"Detected {anomalies.sum()} anomalies")
-    save_results(errors, anomalies)
+    save_results(errors,anomalies)
     logger.info("Evaluating model...")
 
-    metrics = evaluate(
+    metrics=evaluate(
         anomalies,
         "data/raw_logs/anomaly_label.csv",
         config['model']['window_size']
     )
-    save_experiment(config, metrics)
+    save_experiment(config,metrics)
     logger.info("Plotting anomaly detection results...")
-    plot_anomalies(errors, anomalies)
+    plot_anomalies(errors,anomalies)
 
     try:
         import pandas as pd
-        labels = pd.read_csv("data/raw_logs/anomaly_label.csv")
-        y_true = labels['Label'].values[:len(errors)]
-        plot_roc(errors, y_true)
+        labels=pd.read_csv("data/raw_logs/anomaly_label.csv")
+        y_true=labels['Label'].values[:len(errors)]
+        plot_roc(errors,y_true)
         
     except Exception as e:
         logger.warning(f"ROC plotting skipped: {e}")
     logger.info("Pipeline completed successfully.")
 
-if __name__ == "__main__":
+if __name__=="__main__":
     run()

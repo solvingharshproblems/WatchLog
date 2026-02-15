@@ -10,52 +10,35 @@ from sklearn.metrics import (
     classification_report
 )
 
-def evaluate(predictions, label_path, window_size):
-
+def evaluate(predictions,label_path,window_size):
     print("[INFO] Loading ground truth labels...")
-
-    df = pd.read_csv(label_path)
-
-    label_map = {
-        "Normal": 0,
-        "Anomaly": 1
+    df=pd.read_csv(label_path)
+    label_map={
+        "Normal":0,
+        "Anomaly":1
     }
 
-    true_labels = df["Label"].map(label_map).values
-
-    true_labels = true_labels[:len(predictions)]
-
-    predictions = predictions.astype(int)
-
-    accuracy = accuracy_score(true_labels, predictions)
-
-    precision = precision_score(true_labels, predictions, zero_division=0)
-
-    recall = recall_score(true_labels, predictions, zero_division=0)
-
-    f1 = f1_score(true_labels, predictions, zero_division=0)
+    true_labels=df["Label"].map(label_map).values
+    true_labels=true_labels[:len(predictions)]
+    predictions=predictions.astype(int)
+    accuracy=accuracy_score(true_labels,predictions)
+    precision=precision_score(true_labels,predictions,zero_division=0)
+    recall=recall_score(true_labels,predictions,zero_division=0)
+    f1=f1_score(true_labels,predictions,zero_division=0)
 
     print("\n========== Evaluation Results ==========")
-
     print(f"Accuracy  : {accuracy:.4f}")
-
     print(f"Precision : {precision:.4f}")
-
     print(f"Recall    : {recall:.4f}")
-
     print(f"F1 Score  : {f1:.4f}")
-
     print("\nConfusion Matrix:")
-
-    print(confusion_matrix(true_labels, predictions))
-
+    print(confusion_matrix(true_labels,predictions))
     print("\nClassification Report:")
-
-    print(classification_report(true_labels, predictions))
+    print(classification_report(true_labels,predictions))
 
     return {
-        "accuracy": accuracy,
-        "precision": precision,
-        "recall": recall,
-        "f1": f1
+        "accuracy":accuracy,
+        "precision":precision,
+        "recall":recall,
+        "f1":f1
     }
