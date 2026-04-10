@@ -1,6 +1,6 @@
-# LogWatch — Federated Deep Learning Based Log Anomaly Detection System
+# WatchLog — Federated Deep Learning Based Log Anomaly Detection System
 
-LogWatch is a privacy-preserving deep learning based log anomaly detection system that uses LSTM Autoencoders and Federated Learning to detect anomalies in distributed system logs without sharing raw log data.
+WatchLog is a privacy-preserving deep learning based log anomaly detection system that uses LSTM Autoencoders and Federated Learning to detect anomalies in distributed system logs without sharing raw log data.
 
 This project implements a complete end-to-end pipeline including log parsing, sequence modeling, anomaly detection, federated training, evaluation, and visualization.
 
@@ -18,7 +18,7 @@ You can view the WatchLog project presentation here:
 
 Modern distributed systems generate massive volumes of logs. Detecting anomalies manually or using rule-based systems is inefficient, non-scalable, and incapable of detecting unknown failures.
 
-LogWatch solves this problem using:
+WatchLog solves this problem using:
 
 - Deep Learning (LSTM Autoencoder)
 - Federated Learning (Flower Framework)
@@ -141,58 +141,116 @@ Contains:
 # Project Structure
 
 ```
-LogWatch/
+WatchLog/
 │
 ├── main.py
 ├── config.yaml
 ├── requirements.txt
-├── model.pth
-├── results.csv
+├── README.md
+│
+├── models/
+│   ├── trained/
+│   │   ├── hdfs_model.pth
+│   │   ├── bgl_model.pth
+│   │   ├── apache_model.pth
+│   │   ├── hadoop_model.pth
+│   │   └── openstack_model.pth
+│   │
+│   ├── lstm_autoencoder.py
+│   ├── transformer_encoder.py        # future upgrade
+│   └── trainer.py
 │
 ├── data/
 │   ├── raw_logs/
-│   │   ├── HDFS.log
-│   │   └── anomaly_label.csv
+│   │   ├── HDFS/
+│   │   │   ├── HDFS.log
+│   │   │   └── anomaly_label.csv
+│   │   │
+│   │   ├── BGL/
+│   │   │   ├── BGL.log
+│   │   │   └── anomaly_label.csv
+│   │   │
+│   │   ├── Apache/
+│   │   │   ├── Apache.log
+│   │   │   └── anomaly_label.csv
+│   │   │
+│   │   ├── Hadoop/
+│   │   │   ├── Hadoop.log
+│   │   │   └── anomaly_label.csv
+│   │   │
+│   │   └── OpenStack/
+│   │       ├── OpenStack.log
+│   │       └── anomaly_label.csv
 │   │
 │   ├── parsed_logs/
-│   │   └── parsed.csv
+│   │   ├── HDFS/
+│   │   │   └── parsed.csv
+│   │   ├── BGL/
+│   │   ├── Apache/
+│   │   ├── Hadoop/
+│   │   └── OpenStack/
 │   │
 │   └── processed/
-│       └── sequences.npy
+│       ├── HDFS/
+│       │   └── sequences.npy
+│       ├── BGL/
+│       ├── Apache/
+│       ├── Hadoop/
+│       └── OpenStack/
 │
 ├── log_parsing/
-│   └── drain_parser.py
+│   ├── drain_parser.py
+│   ├── loghub_parser_config.py       # dataset specific regex rules
+│   └── template_miner.py
 │
 ├── feature_engineering/
-│   └── sequence_features.py
-│
-├── model/
-│   ├── lstm_autoencoder.py
-│   └── trainer.py
+│   ├── sequence_features.py
+│   ├── embedding_features.py         # future transformer embeddings
+│   └── sliding_window.py
 │
 ├── thresholding/
-│   └── threshold.py
+│   ├── threshold.py
+│   ├── adaptive_threshold.py         # distribution fitting method
+│   └── percentile_threshold.py
 │
 ├── visualization/
 │   ├── anomaly_plots.py
-│   └── roc_curve.py
+│   ├── roc_curve.py
+│   ├── confusion_matrix.py
+│   └── training_curves.py
 │
 ├── utils/
 │   ├── config_loader.py
 │   ├── data_downloader.py
+│   ├── dataset_loader.py
 │   ├── logger.py
 │   ├── save_results.py
-│   └── experiment_logger.py
+│   ├── experiment_logger.py
+│   └── seed.py
+│
+├── evaluation/
+│   ├── metrics.py
+│   ├── evaluation.py
+│   └── model_validation.py
 │
 ├── federated/
 │   ├── client.py
 │   ├── server.py
+│   ├── aggregation.py
 │   └── data_partition.py
 │
-├── evaluation.py
+├── experiments/
+│   ├── HDFS/
+│   │   └── experiment_*.json
+│   ├── BGL/
+│   ├── Apache/
+│   ├── Hadoop/
+│   └── OpenStack/
 │
-└── experiments/
-    └── experiment_*.json
+└── notebooks/
+    ├── dataset_analysis.ipynb
+    ├── anomaly_visualization.ipynb
+    └── model_comparison.ipynb
 ```
 
 ---
