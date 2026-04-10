@@ -1,5 +1,5 @@
 data:
-  dataset_url: "https://raw.githubusercontent.com/logpai/loghub/master/HDFS/HDFS.log"
+  dataset_url: "https://github.com/logpai/loghub/blob/master/HDFS/HDFS_2k.log"
   raw_log_path: "data/raw_logs/HDFS.log"
 
 model:

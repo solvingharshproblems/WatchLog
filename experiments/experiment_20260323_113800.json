@@ -1,0 +1,18 @@
+{
+    "timestamp": "2026-03-23T11:38:00.264564",
+    "model": {
+        "window_size": 10,
+        "hidden_size": 64,
+        "latent_size": 16,
+        "learning_rate": 0.001,
+        "epochs": 5,
+        "batch_size": 128
+    },
+    "threshold": 95,
+    "metrics": {
+        "accuracy": 0.9301507537688443,
+        "precision": 0.04,
+        "recall": 0.0851063829787234,
+        "f1": 0.05442176870748299
+    }
+}

@@ -107,7 +107,8 @@ def run():
     try:
         import pandas as pd
         labels=pd.read_csv("data/raw_logs/anomaly_label.csv")
-        y_true=labels['Label'].values[:len(errors)]
+        label_map={"Normal": 0, "Anomaly": 1}
+        y_true = labels["Label"].map(label_map).values[:len(errors)]
         plot_roc(errors,y_true)
         
     except Exception as e:
