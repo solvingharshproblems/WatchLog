@@ -6,6 +6,14 @@ This project implements a complete end-to-end pipeline including log parsing, se
 
 ---
 
+## 📊 Project Presentation
+
+You can view the WatchLog project presentation here:
+
+🔗 [WatchLog PPT Presentation](https://docs.google.com/presentation/d/1jX7OODJnP09QK0rDgZv_pJZ5Cvx0rn_T/edit?usp=sharing)
+
+---
+
 # Overview
 
 Modern distributed systems generate massive volumes of logs. Detecting anomalies manually or using rule-based systems is inefficient, non-scalable, and incapable of detecting unknown failures.
